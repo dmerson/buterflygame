@@ -42,9 +42,12 @@ body {
   letter-spacing: 0.03em;
 }
 
-#hud-center {
-  font-size: 1.1rem;
+#level-label, #level {
   color: #ffe066;
+}
+
+#hud-sep {
+  color: rgba(255,255,255,0.4);
 }
 
 /* Canvas container */
