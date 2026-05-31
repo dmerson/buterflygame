@@ -42,12 +42,13 @@ body {
   letter-spacing: 0.03em;
 }
 
-#level-label, #level {
+#level-label,
+#level {
   color: #ffe066;
 }
 
 #hud-sep {
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* Canvas container */
@@ -78,7 +79,9 @@ body {
   z-index: 10;
 }
 
-#overlay.hidden { display: none; }
+#overlay.hidden {
+  display: none;
+}
 
 #overlay-content {
   background: #2d6a1f;
@@ -116,7 +119,9 @@ body {
   transition: transform 0.1s;
 }
 
-#overlay-btn:active { transform: scale(0.95); }
+#overlay-btn:active {
+  transform: scale(0.95);
+}
 
 /* On-screen controls */
 #controls {
@@ -139,7 +144,8 @@ body {
   gap: 4px;
 }
 
-.dpad-btn, #btn-drain {
+.dpad-btn,
+#btn-drain {
   background: #2d6a1f;
   border: 2px solid #5cb85c;
   border-radius: 10px;
@@ -147,7 +153,9 @@ body {
   font-size: 1.3rem;
   cursor: pointer;
   box-shadow: 0 3px 6px #0005;
-  transition: transform 0.08s, background 0.08s;
+  transition:
+    transform 0.08s,
+    background 0.08s;
   width: 58px;
   height: 58px;
   display: flex;
@@ -156,8 +164,10 @@ body {
   flex-direction: column;
 }
 
-.dpad-btn:active, #btn-drain:active,
-.dpad-btn.pressed, #btn-drain.pressed {
+.dpad-btn:active,
+#btn-drain:active,
+.dpad-btn.pressed,
+#btn-drain.pressed {
   transform: scale(0.9);
   background: #4a9e2f;
 }
@@ -178,7 +188,9 @@ body {
 
 /* Landscape mobile: controls beside the canvas */
 @media (orientation: landscape) and (max-height: 500px) {
-  body { align-items: flex-start; }
+  body {
+    align-items: flex-start;
+  }
 
   #game-wrapper {
     flex-direction: row;

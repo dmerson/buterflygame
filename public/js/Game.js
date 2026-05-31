@@ -1,36 +1,36 @@
 const STATE = {
-  TITLE:          'TITLE',
-  PLAYING:        'PLAYING',
-  LIFE_LOST:      'LIFE_LOST',
+  TITLE: 'TITLE',
+  PLAYING: 'PLAYING',
+  LIFE_LOST: 'LIFE_LOST',
   LEVEL_COMPLETE: 'LEVEL_COMPLETE',
-  GAME_OVER:      'GAME_OVER',
-  VICTORY:        'VICTORY',
+  GAME_OVER: 'GAME_OVER',
+  VICTORY: 'VICTORY',
 };
 
 const TOTAL_LEVELS = 5;
 
 class Game {
   constructor(canvas, controls, ui) {
-    this.canvas   = canvas;
+    this.canvas = canvas;
     this.controls = controls;
-    this.ui       = ui;
+    this.ui = ui;
     this.renderer = new Renderer(canvas);
 
-    this.state    = STATE.TITLE;
-    this.score    = 0;
-    this.lives    = 3;
+    this.state = STATE.TITLE;
+    this.score = 0;
+    this.lives = 3;
     this.levelNum = 1;
 
-    this.maze      = null;
-    this.flowers   = [];
+    this.maze = null;
+    this.flowers = [];
     this.butterfly = null;
-    this.catchers  = [];
+    this.catchers = [];
 
     this._lastTime = null;
-    this._pauseT   = 0;
+    this._pauseT = 0;
 
     this._showTitle();
-    requestAnimationFrame(t => this._loop(t));
+    requestAnimationFrame((t) => this._loop(t));
   }
 
   // ── State transitions ────────────────────────────────────────────────────────
@@ -40,13 +40,16 @@ class Game {
       '🦋 Butterfly Maze',
       'Collect all the flower pollen!\nArrow keys to move, Space to collect.',
       'Play!',
-      () => { this.ui.hideOverlay(); this._startGame(); }
+      () => {
+        this.ui.hideOverlay();
+        this._startGame();
+      }
     );
   }
 
   _startGame() {
-    this.score    = 0;
-    this.lives    = 3;
+    this.score = 0;
+    this.lives = 3;
     this.levelNum = 1;
     this._loadLevel();
   }
@@ -57,18 +60,16 @@ class Game {
     this.renderer.resize(this.maze);
 
     const pollenAmount = POLLEN_PER_FLOWER[idx];
-    this.flowers = this.maze.flowerPositions.map(
-      p => new Flower(p.col, p.row, pollenAmount)
-    );
+    this.flowers = this.maze.flowerPositions.map((p) => new Flower(p.col, p.row, pollenAmount));
 
     const start = this.maze.startPos;
     this.butterfly = new Butterfly(start.col, start.row);
 
     // Spawn N catchers for level N
     const catcherCount = Math.min(this.levelNum, this.maze.catcherStarts.length);
-    this.catchers = this.maze.catcherStarts.slice(0, catcherCount).map(
-      cs => new Catcher(cs.col, cs.row, cs.id)
-    );
+    this.catchers = this.maze.catcherStarts
+      .slice(0, catcherCount)
+      .map((cs) => new Catcher(cs.col, cs.row, cs.id));
 
     this.ui.setScore(this.score);
     this.ui.setLevel(this.levelNum);
@@ -107,7 +108,10 @@ class Game {
         '🌸 Level Complete!',
         `You collected all the pollen!\n+1 Life   Level ${this.levelNum + 1} incoming…`,
         'Next Level',
-        () => { this.levelNum++; this._loadLevel(); }
+        () => {
+          this.levelNum++;
+          this._loadLevel();
+        }
       );
     }
   }
@@ -134,9 +138,11 @@ class Game {
 
   // ── Game loop ────────────────────────────────────────────────────────────────
   _loop(timestamp) {
-    requestAnimationFrame(t => this._loop(t));
+    requestAnimationFrame((t) => this._loop(t));
 
-    if (this._lastTime === null) { this._lastTime = timestamp; }
+    if (this._lastTime === null) {
+      this._lastTime = timestamp;
+    }
     const dt = Math.min((timestamp - this._lastTime) / 1000, 0.1);
     this._lastTime = timestamp;
 
@@ -170,7 +176,7 @@ class Game {
     // Drain active flower if space held
     if (this.butterfly.isDraining) {
       const flower = this.flowers.find(
-        f => f.col === this.butterfly.col && f.row === this.butterfly.row
+        (f) => f.col === this.butterfly.col && f.row === this.butterfly.row
       );
       if (flower) {
         const gained = flower.drain(dt);
@@ -180,10 +186,10 @@ class Game {
     }
 
     // Update flowers (animation)
-    this.flowers.forEach(f => f.update(dt));
+    this.flowers.forEach((f) => f.update(dt));
 
     // Update catchers
-    this.catchers.forEach(c => c.update(dt, this.maze));
+    this.catchers.forEach((c) => c.update(dt, this.maze));
 
     // Collision check (only while playing, not during brief LIFE_LOST freeze)
     if (this.state === STATE.PLAYING) {
@@ -199,7 +205,7 @@ class Game {
       }
 
       // Level complete?
-      if (this.flowers.every(f => f.depleted)) {
+      if (this.flowers.every((f) => f.depleted)) {
         this._levelComplete();
       }
     }

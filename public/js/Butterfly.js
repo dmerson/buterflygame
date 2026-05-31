@@ -4,7 +4,7 @@ class Butterfly {
   constructor(col, row) {
     this.col = col;
     this.row = row;
-    this.px = col;  // pixel-interpolated position (in tile units)
+    this.px = col; // pixel-interpolated position (in tile units)
     this.py = row;
     this.moving = false;
     this.targetCol = col;
@@ -80,7 +80,7 @@ class Butterfly {
   }
 
   _flowerAt(flowers) {
-    return flowers.find(f => f.col === this.col && f.row === this.row) || null;
+    return flowers.find((f) => f.col === this.col && f.row === this.row) || null;
   }
 
   flash() {
@@ -90,6 +90,11 @@ class Butterfly {
   }
 
   static _dirDelta(dir) {
-    return { up: { dc: 0, dr: -1 }, down: { dc: 0, dr: 1 }, left: { dc: -1, dr: 0 }, right: { dc: 1, dr: 0 } }[dir];
+    return {
+      up: { dc: 0, dr: -1 },
+      down: { dc: 0, dr: 1 },
+      left: { dc: -1, dr: 0 },
+      right: { dc: 1, dr: 0 },
+    }[dir];
   }
 }

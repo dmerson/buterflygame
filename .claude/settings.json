@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"C:\\Claude Cowork Projects\\game1\" && npx prettier --check \"public/js/**/*.js\" \"public/css/**/*.css\" \"server.js\" \"generate-icons.js\""
+          }
+        ]
+      }
+    ]
+  }
+}

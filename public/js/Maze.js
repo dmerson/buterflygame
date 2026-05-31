@@ -1,7 +1,7 @@
 class Maze {
   constructor(levelIndex) {
     this.levelIndex = levelIndex;
-    this.grid = LEVELS[levelIndex].map(row => [...row]);
+    this.grid = LEVELS[levelIndex].map((row) => [...row]);
     this.rows = this.grid.length;
     this.cols = this.grid[0].length;
     this._parse();
@@ -64,6 +64,6 @@ class Maze {
       { col, row: row + 1, dir: 'down' },
       { col: col - 1, row, dir: 'left' },
       { col: col + 1, row, dir: 'right' },
-    ].filter(n => this.isWalkable(n.col, n.row));
+    ].filter((n) => this.isWalkable(n.col, n.row));
   }
 }

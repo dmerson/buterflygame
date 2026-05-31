@@ -1,5 +1,5 @@
 const CATCHER_SPEED = 0.28; // seconds per tile (slower than butterfly)
-const SIGHT_RANGE = 8;      // tiles
+const SIGHT_RANGE = 8; // tiles
 
 const CATCHER_COLORS = ['#e74c3c', '#e67e22', '#9b59b6', '#1abc9c', '#e91e8c'];
 
@@ -23,7 +23,10 @@ class Catcher {
 
   update(dt, maze) {
     this.netT += dt;
-    if (this.netT > 0.3) { this.netT = 0; this.netFrame = 1 - this.netFrame; }
+    if (this.netT > 0.3) {
+      this.netT = 0;
+      this.netFrame = 1 - this.netFrame;
+    }
 
     if (!this.moving) {
       this._chooseMove(maze);
@@ -50,7 +53,7 @@ class Catcher {
 
     // Avoid reversing unless it's the only option
     const opposite = Catcher._opposite(this.lastDir);
-    let options = neighbors.filter(n => n.dir !== opposite);
+    let options = neighbors.filter((n) => n.dir !== opposite);
     if (options.length === 0) options = neighbors;
 
     const chosen = options[Math.floor(Math.random() * options.length)];
@@ -75,9 +78,7 @@ class Catcher {
     const sameCol = this.col === bCol;
     if (!sameRow && !sameCol) return false;
 
-    const dist = sameRow
-      ? Math.abs(this.col - bCol)
-      : Math.abs(this.row - bRow);
+    const dist = sameRow ? Math.abs(this.col - bCol) : Math.abs(this.row - bRow);
     if (dist > SIGHT_RANGE) return false;
 
     return !maze.hedgeBetween(this.col, this.row, bCol, bRow);

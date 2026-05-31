@@ -4,9 +4,9 @@ window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
   }
 
-  const canvas   = document.getElementById('game-canvas');
+  const canvas = document.getElementById('game-canvas');
   const controls = new Controls();
-  const ui       = new UI();
+  const ui = new UI();
 
   new Game(canvas, controls, ui);
 });

@@ -1,7 +1,7 @@
 // Generates PNG icons without any external dependencies (uses built-in zlib).
 // Run: node generate-icons.js
 const zlib = require('zlib');
-const fs   = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 function createPNG(size, drawFn) {
@@ -18,27 +18,33 @@ function createPNG(size, drawFn) {
   const buf = Buffer.alloc(8 + 25 + 12 + compressed.length + 12 + 12);
   let offset = 0;
 
-  function write(bytes) { bytes.forEach(b => buf[offset++] = b); }
-  function writeU32(n) { buf.writeUInt32BE(n, offset); offset += 4; }
+  function write(bytes) {
+    bytes.forEach((b) => (buf[offset++] = b));
+  }
+  function writeU32(n) {
+    buf.writeUInt32BE(n, offset);
+    offset += 4;
+  }
 
   function chunk(type, data) {
     writeU32(data.length);
-    const typeBytes = [...type].map(c => c.charCodeAt(0));
+    const typeBytes = [...type].map((c) => c.charCodeAt(0));
     write(typeBytes);
-    data.copy(buf, offset); offset += data.length;
+    data.copy(buf, offset);
+    offset += data.length;
     const crc = crc32(Buffer.concat([Buffer.from(typeBytes), data]));
     writeU32(crc);
   }
 
   // PNG signature
-  write([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+  write([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
   // IHDR
   const ihdr = Buffer.alloc(13);
   ihdr.writeUInt32BE(size, 0);
   ihdr.writeUInt32BE(size, 4);
-  ihdr[8] = 8;  // bit depth
-  ihdr[9] = 6;  // RGBA
+  ihdr[8] = 8; // bit depth
+  ihdr[9] = 6; // RGBA
   ihdr[10] = ihdr[11] = ihdr[12] = 0;
   chunk('IHDR', ihdr);
 
@@ -56,7 +62,7 @@ const crcTable = (() => {
   const t = new Uint32Array(256);
   for (let i = 0; i < 256; i++) {
     let c = i;
-    for (let j = 0; j < 8; j++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+    for (let j = 0; j < 8; j++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
     t[i] = c;
   }
   return t;
@@ -71,12 +77,14 @@ function crc32(buf) {
 // Draw function: butterfly on green rounded-rect background
 function drawIcon(x, y, size) {
   const S = size;
-  const cx = S / 2, cy = S / 2;
+  const cx = S / 2,
+    cy = S / 2;
 
   // Background: dark green rounded square
   const radius = S * 0.21;
-  const inBg = x >= radius && x < S - radius && y >= 0 && y < S ||
-               x >= 0 && x < S && y >= radius && y < S - radius;
+  const inBg =
+    (x >= radius && x < S - radius && y >= 0 && y < S) ||
+    (x >= 0 && x < S && y >= radius && y < S - radius);
   const corner = (dx, dy) => Math.sqrt(dx * dx + dy * dy) <= radius;
   const inCorner =
     (x < radius && y < radius && corner(radius - x, radius - y)) ||
@@ -93,26 +101,34 @@ function drawIcon(x, y, size) {
   if (bx * bx + by * by < 1) return [61, 43, 110, 255];
 
   // Head: small circle above centre
-  const hx = x - cx, hy = y - (cy - S * 0.185);
+  const hx = x - cx,
+    hy = y - (cy - S * 0.185);
   if (hx * hx + hy * hy < (S * 0.052) ** 2) return [61, 43, 110, 255];
 
   // Upper wings
   function inEllipseR(ox, oy, rx, ry, ang) {
-    const cos = Math.cos(ang), sin = Math.sin(ang);
+    const cos = Math.cos(ang),
+      sin = Math.sin(ang);
     const lx = (x - ox) * cos + (y - oy) * sin;
     const ly = -(x - ox) * sin + (y - oy) * cos;
     return (lx / rx) ** 2 + (ly / ry) ** 2 < 1;
   }
-  if (inEllipseR(cx - S * 0.12, cy - S * 0.04, S * 0.22, S * 0.27, -0.44)) return [123, 94, 167, 230];
-  if (inEllipseR(cx + S * 0.12, cy - S * 0.04, S * 0.22, S * 0.27,  0.44)) return [123, 94, 167, 230];
+  if (inEllipseR(cx - S * 0.12, cy - S * 0.04, S * 0.22, S * 0.27, -0.44))
+    return [123, 94, 167, 230];
+  if (inEllipseR(cx + S * 0.12, cy - S * 0.04, S * 0.22, S * 0.27, 0.44))
+    return [123, 94, 167, 230];
 
   // Lower wings
-  if (inEllipseR(cx - S * 0.1,  cy + S * 0.11, S * 0.15, S * 0.19,  0.26)) return [156, 109, 206, 230];
-  if (inEllipseR(cx + S * 0.1,  cy + S * 0.11, S * 0.15, S * 0.19, -0.26)) return [156, 109, 206, 230];
+  if (inEllipseR(cx - S * 0.1, cy + S * 0.11, S * 0.15, S * 0.19, 0.26))
+    return [156, 109, 206, 230];
+  if (inEllipseR(cx + S * 0.1, cy + S * 0.11, S * 0.15, S * 0.19, -0.26))
+    return [156, 109, 206, 230];
 
   // Yellow dots on upper wings
-  const d1x = x - (cx - S * 0.22), d1y = y - (cy - S * 0.08);
-  const d2x = x - (cx + S * 0.22), d2y = y - (cy - S * 0.08);
+  const d1x = x - (cx - S * 0.22),
+    d1y = y - (cy - S * 0.08);
+  const d2x = x - (cx + S * 0.22),
+    d2y = y - (cy - S * 0.08);
   if (d1x * d1x + d1y * d1y < (S * 0.055) ** 2) return [255, 224, 102, 200];
   if (d2x * d2x + d2y * d2y < (S * 0.055) ** 2) return [255, 224, 102, 200];
 

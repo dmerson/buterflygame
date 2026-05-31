@@ -1,17 +1,21 @@
 class UI {
   constructor() {
-    this._score   = document.getElementById('score');
-    this._lives   = document.getElementById('lives');
-    this._level   = document.getElementById('level');
+    this._score = document.getElementById('score');
+    this._lives = document.getElementById('lives');
+    this._level = document.getElementById('level');
     this._overlay = document.getElementById('overlay');
-    this._title   = document.getElementById('overlay-title');
-    this._msg     = document.getElementById('overlay-message');
-    this._btn     = document.getElementById('overlay-btn');
+    this._title = document.getElementById('overlay-title');
+    this._msg = document.getElementById('overlay-message');
+    this._btn = document.getElementById('overlay-btn');
   }
 
-  setScore(n)  { this._score.textContent = Math.floor(n); }
-  setLevel(n)  { this._level.textContent = n; }
-  setLives(n)  {
+  setScore(n) {
+    this._score.textContent = Math.floor(n);
+  }
+  setLevel(n) {
+    this._level.textContent = n;
+  }
+  setLives(n) {
     const BUTTERFLY = '🦋';
     this._lives.textContent = BUTTERFLY.repeat(Math.max(0, n));
   }

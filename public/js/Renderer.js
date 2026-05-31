@@ -10,7 +10,7 @@ class Renderer {
     const w = container.clientWidth;
     const h = container.clientHeight;
     this.tileSize = Math.floor(Math.min(w / maze.cols, h / maze.rows));
-    this.canvas.width  = this.tileSize * maze.cols;
+    this.canvas.width = this.tileSize * maze.cols;
     this.canvas.height = this.tileSize * maze.rows;
   }
 
@@ -19,8 +19,8 @@ class Renderer {
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this._drawMaze(maze, T);
-    flowers.forEach(f => this._drawFlower(f, T));
-    catchers.forEach(c => this._drawCatcher(c, T));
+    flowers.forEach((f) => this._drawFlower(f, T));
+    catchers.forEach((c) => this._drawCatcher(c, T));
     this._drawButterfly(butterfly, T);
   }
 
@@ -30,11 +30,18 @@ class Renderer {
     for (let r = 0; r < maze.rows; r++) {
       for (let c = 0; c < maze.cols; c++) {
         const tile = maze.getTile(c, r);
-        const x = c * T, y = r * T;
+        const x = c * T,
+          y = r * T;
         switch (tile) {
-          case '#': this._drawWall(x, y, T, maze, c, r); break;
-          case 'H': this._drawHedge(x, y, T); break;
-          default:  this._drawPath(x, y, T); break;
+          case '#':
+            this._drawWall(x, y, T, maze, c, r);
+            break;
+          case 'H':
+            this._drawHedge(x, y, T);
+            break;
+          default:
+            this._drawPath(x, y, T);
+            break;
         }
       }
     }
@@ -73,12 +80,15 @@ class Renderer {
     ctx.fillRect(x, y, T, T);
 
     // Draw bushy hedge circles
-    const cx = x + T / 2, cy = y + T / 2;
-    const r  = T * 0.42;
+    const cx = x + T / 2,
+      cy = y + T / 2;
+    const r = T * 0.42;
     const blobColor = '#4caf50';
-    const blobDark  = '#388e3c';
+    const blobDark = '#388e3c';
     const offsets = [
-      [0, -0.28], [0.28, 0.14], [-0.28, 0.14],
+      [0, -0.28],
+      [0.28, 0.14],
+      [-0.28, 0.14],
     ];
     offsets.forEach(([ox, oy]) => {
       ctx.beginPath();
@@ -177,17 +187,52 @@ class Renderer {
     const wingSpread = wingOpen ? s : s * 0.7;
 
     // Upper wings
-    this._drawWing(ctx,  wingSpread * 0.5, -wingSpread * 0.55, wingSpread * 0.8, wingSpread * 0.65, '#7b5ea7');
-    this._drawWing(ctx, -wingSpread * 0.5, -wingSpread * 0.55, wingSpread * 0.8, wingSpread * 0.65, '#7b5ea7', true);
+    this._drawWing(
+      ctx,
+      wingSpread * 0.5,
+      -wingSpread * 0.55,
+      wingSpread * 0.8,
+      wingSpread * 0.65,
+      '#7b5ea7'
+    );
+    this._drawWing(
+      ctx,
+      -wingSpread * 0.5,
+      -wingSpread * 0.55,
+      wingSpread * 0.8,
+      wingSpread * 0.65,
+      '#7b5ea7',
+      true
+    );
 
     // Lower wings (smaller)
-    this._drawWing(ctx,  wingSpread * 0.4, wingSpread * 0.3, wingSpread * 0.55, wingSpread * 0.5, '#9c6dce');
-    this._drawWing(ctx, -wingSpread * 0.4, wingSpread * 0.3, wingSpread * 0.55, wingSpread * 0.5, '#9c6dce', true);
+    this._drawWing(
+      ctx,
+      wingSpread * 0.4,
+      wingSpread * 0.3,
+      wingSpread * 0.55,
+      wingSpread * 0.5,
+      '#9c6dce'
+    );
+    this._drawWing(
+      ctx,
+      -wingSpread * 0.4,
+      wingSpread * 0.3,
+      wingSpread * 0.55,
+      wingSpread * 0.5,
+      '#9c6dce',
+      true
+    );
 
     // Wing pattern dots
     ctx.fillStyle = 'rgba(255,230,100,0.7)';
-    [[wingSpread * 0.55, -wingSpread * 0.4], [-wingSpread * 0.55, -wingSpread * 0.4]].forEach(([px, py]) => {
-      ctx.beginPath(); ctx.arc(px, py, wingSpread * 0.12, 0, Math.PI * 2); ctx.fill();
+    [
+      [wingSpread * 0.55, -wingSpread * 0.4],
+      [-wingSpread * 0.55, -wingSpread * 0.4],
+    ].forEach(([px, py]) => {
+      ctx.beginPath();
+      ctx.arc(px, py, wingSpread * 0.12, 0, Math.PI * 2);
+      ctx.fill();
     });
 
     // Body
@@ -199,17 +244,28 @@ class Renderer {
     // Antennae
     ctx.strokeStyle = '#3d2b6e';
     ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo( s * 0.06, -s * 0.45); ctx.lineTo( s * 0.22, -s * 0.85); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(-s * 0.06, -s * 0.45); ctx.lineTo(-s * 0.22, -s * 0.85); ctx.stroke();
-    ctx.beginPath(); ctx.arc( s * 0.22, -s * 0.85, s * 0.06, 0, Math.PI * 2); ctx.fillStyle = '#5d4a9e'; ctx.fill();
-    ctx.beginPath(); ctx.arc(-s * 0.22, -s * 0.85, s * 0.06, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(s * 0.06, -s * 0.45);
+    ctx.lineTo(s * 0.22, -s * 0.85);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(-s * 0.06, -s * 0.45);
+    ctx.lineTo(-s * 0.22, -s * 0.85);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(s * 0.22, -s * 0.85, s * 0.06, 0, Math.PI * 2);
+    ctx.fillStyle = '#5d4a9e';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(-s * 0.22, -s * 0.85, s * 0.06, 0, Math.PI * 2);
+    ctx.fill();
 
     ctx.restore();
 
     // Draining sparkle
     if (b.isDraining) {
       for (let i = 0; i < 4; i++) {
-        const angle = (Date.now() / 300 + i * Math.PI / 2) % (Math.PI * 2);
+        const angle = (Date.now() / 300 + (i * Math.PI) / 2) % (Math.PI * 2);
         const sr = T * 0.5;
         ctx.beginPath();
         ctx.arc(cx + Math.cos(angle) * sr, cy + Math.sin(angle) * sr, T * 0.06, 0, Math.PI * 2);
@@ -237,7 +293,7 @@ class Renderer {
     const { ctx } = this;
     const cx = c.px * T + T / 2;
     const cy = c.py * T + T / 2;
-    const s  = T * 0.38;
+    const s = T * 0.38;
 
     // Body (oval)
     ctx.beginPath();
@@ -256,8 +312,12 @@ class Renderer {
 
     // Eyes
     ctx.fillStyle = '#222';
-    ctx.beginPath(); ctx.arc(cx - s * 0.1, cy - s * 0.32, s * 0.07, 0, Math.PI * 2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx + s * 0.1, cy - s * 0.32, s * 0.07, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx - s * 0.1, cy - s * 0.32, s * 0.07, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx + s * 0.1, cy - s * 0.32, s * 0.07, 0, Math.PI * 2);
+    ctx.fill();
 
     // Hat
     ctx.fillStyle = '#5d4037';
@@ -271,7 +331,10 @@ class Renderer {
     ctx.rotate(netSwing);
     ctx.strokeStyle = '#795548';
     ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(s * 0.7, -s * 0.8); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(s * 0.7, -s * 0.8);
+    ctx.stroke();
 
     // Net (semi-circle)
     ctx.beginPath();
