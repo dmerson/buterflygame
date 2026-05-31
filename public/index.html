@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#2d6a1f">
+  <title>Butterfly Maze</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <div id="hud-left">
+        <span id="score-label">Score: </span><span id="score">0</span>
+      </div>
+      <div id="hud-center">
+        <span id="level-label">Level </span><span id="level">1</span>
+      </div>
+      <div id="hud-right">
+        <span id="lives-label">Lives: </span><span id="lives">&#127987;&#127987;&#127987;</span>
+      </div>
+    </div>
+
+    <div id="canvas-container">
+      <canvas id="game-canvas"></canvas>
+      <div id="overlay" class="hidden">
+        <div id="overlay-content">
+          <h1 id="overlay-title">Butterfly Maze</h1>
+          <p id="overlay-message">Collect all the pollen!</p>
+          <button id="overlay-btn">Play</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="controls">
+      <div id="dpad">
+        <button class="dpad-btn" id="btn-up"    data-dir="up">&#9650;</button>
+        <div id="dpad-row">
+          <button class="dpad-btn" id="btn-left"  data-dir="left">&#9664;</button>
+          <button class="dpad-btn" id="btn-down"  data-dir="down">&#9660;</button>
+          <button class="dpad-btn" id="btn-right" data-dir="right">&#9654;</button>
+        </div>
+      </div>
+      <button id="btn-drain">&#127803;<br><small>Collect</small></button>
+    </div>
+  </div>
+
+  <script src="js/levels.js"></script>
+  <script src="js/Maze.js"></script>
+  <script src="js/Flower.js"></script>
+  <script src="js/Butterfly.js"></script>
+  <script src="js/Catcher.js"></script>
+  <script src="js/Renderer.js"></script>
+  <script src="js/Controls.js"></script>
+  <script src="js/UI.js"></script>
+  <script src="js/Game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

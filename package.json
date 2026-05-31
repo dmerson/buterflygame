@@ -1,0 +1,12 @@
+{
+  "name": "butterfly-maze",
+  "version": "1.0.0",
+  "description": "Butterfly Maze – a Pac-Man-style pollen collecting game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.22.2"
+  }
+}
